@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+
+<body>
+    <div class="topo"></div>
+    <div class="form">
+        <h2>insira CEP</h2>
+        <form action="/action_page.php" method="get">
+            <input type="text" id="cep">
+            <input type="submit" name="nome" placeholder="cep"><br>
+            <p id="cidade"></p>
+            <p id="bairro"></p>
+            <p id="endereço"></p>
+
+
+
+
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"
+        integrity="sha512-efAcjYoYT0sXxQRtxGY37CKYmqsFVOIwMApaEbrxJr4RwqVVGw8o+Lfh/+59TU07+suZn1BWq4fDl5fdgyCNkw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+    <script>
+        function consultar(cep) {
+            cep = cep.replace(".", "")
+            cep = cep.replace("-", "")
+
+
+            var settings = {
+                "url": "https://viacep.com.br/ws/" + cep + "/json/",
+                "method": "GET",
+                "timeout": 0,
+            };
+
+
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+                //inserir dados nos paragrafos
+                $("#cidade").html(response.localidade);
+                $("#bairro").html(response.bairro);
+                $("#endereço").html(response.logradouro);
+            });
+        }
+        $(document).ready(function () {
+            $("form").submit(function () {
+                event.preventDefault();
+                consultar($('#cep').val());
+            });
+        });
+
+
+        Inputmask("99.999-999").mask("#cep");
+
+
+    </script>
+</body>
+
+
+</html>
+
+
+
+.form {
+   border: solid 5px;
+   text-align: center;
+   width: 450px;
+   height: 350px;
+   padding: 0;
+   margin: 0;
+   position: absolute;
+   top: 30%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   background-color: yellow;
+
+
+}
+
+
+.topo {
+
+
+   background-color: #46ACC2;
+   display: flex;
+   padding: 100px;
+   font-family: sans-serif;
+   color: white;
+}
